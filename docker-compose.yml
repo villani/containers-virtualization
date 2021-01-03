@@ -1,0 +1,52 @@
+version: '3.3'
+
+services:
+
+  db:
+    image: mysql:8.0.19
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: teste
+
+  quarkus1:
+    depends_on:
+      - db
+    build: .
+    ports:
+      - "8081:8080"
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: teste
+
+  quarkus2:
+    depends_on:
+      - db
+    build: .
+    ports:
+      - "8082:8080"
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: teste
+
+  loadbalance:
+    depends_on:
+    - quarkus1
+    - quarkus2
+    image: nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    command: [ nginx-debug, '-g', 'daemon off;' ]
