@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+
+  db:
+    env_file: 
+      - .env
+    image: mysql:8.0.19
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    restart: always
+    env_file: 
+      - .env
+
+  quarkus1:
+    env_file: 
+      - .env
+    depends_on:
+      - db
+    build: .
+    ports:
+      - "8081:8080"
+    restart: always
+
+  quarkus2:
+    env_file: 
+      - .env
+    depends_on:
+      - db
+    build: .
+    ports:
+      - "8082:8080"
+    restart: always
+
+  loadbalance:
+    depends_on:
+    - quarkus1
+    - quarkus2
+    image: nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    command: [ nginx-debug, '-g', 'daemon off;' ]

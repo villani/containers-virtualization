@@ -1,0 +1,81 @@
+---
+openapi: 3.0.3
+info:
+  title: Generated API
+  version: "1.0"
+paths:
+  /produtos:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListProduto'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CadastrarProdutoDTO'
+      responses:
+        "201":
+          description: Created
+  /produtos/{id}:
+    put:
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          format: int64
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CadastrarProdutoDTO'
+      responses:
+        "204":
+          description: No Content
+    delete:
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "204":
+          description: No Content
+components:
+  schemas:
+    CadastrarProdutoDTO:
+      type: object
+      properties:
+        nome:
+          type: string
+        valor:
+          type: number
+    Produto:
+      type: object
+      properties:
+        id:
+          format: int64
+          type: integer
+        dataAtualizacao:
+          format: date
+          type: string
+        dataCriacao:
+          format: date
+          type: string
+        nome:
+          type: string
+        valor:
+          type: number
+    ListProduto:
+      type: array
+      items:
+        $ref: '#/components/schemas/Produto'

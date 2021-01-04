@@ -1,44 +1,37 @@
-version: '3.3'
+version: '3.8'
 
 services:
 
   db:
+    env_file: 
+      - .env
     image: mysql:8.0.19
     ports:
       - "3306:3306"
       - "33060:33060"
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: teste
+    env_file: 
+      - .env
 
   quarkus1:
+    env_file: 
+      - .env
     depends_on:
       - db
-    build: .
+    image: leonardovillani/containers-virtualization
     ports:
       - "8081:8080"
     restart: always
-    environment:
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_NAME: teste
 
   quarkus2:
+    env_file: 
+      - .env
     depends_on:
       - db
-    build: .
+    image: leonardovillani/containers-virtualization
     ports:
       - "8082:8080"
     restart: always
-    environment:
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_NAME: teste
 
   loadbalance:
     depends_on:
