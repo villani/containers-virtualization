@@ -32,7 +32,7 @@ Em seguida, entre na pasta do repositório clonado:
 cd containers-virtualization 
 ```
 
-Inicie os serviços da aplicação: 
+Inicie os serviços da aplicação (IMPORTANTE: Para este passo, certifique-se que o serviço do Docker esteja em execução): 
  
 ```bash
 docker-compose -f docker-compose-hub.yml up 
@@ -67,7 +67,7 @@ Construa a aplicação a partir do comando:
 mvn package  
 ```
 
-Inicie os serviços da aplicação, usando o arquivo que constrói a imagem do container da aplicação: 
+Inicie os serviços da aplicação, usando o arquivo que constrói a imagem do container da aplicação (IMPORTANTE: Para este passo, certifique-se que o serviço do Docker esteja em execução): 
  
 ```bash
 docker-compose -f docker-compose-build.yml up 
